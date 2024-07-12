@@ -2,7 +2,7 @@ import {setSlugCards} from "../utils/cards.ts";
 import type {CardRules} from "../models/card-rules.ts";
 import type {Card} from "../models/cards.ts";
 import {CARD_TYPES} from "../enums/card-types.ts";
-import {optionsBuilder} from "../utils/options.ts";
+import {multiSelectOptionsBuilder} from "../utils/options.ts";
 
 export const removeBannedCards = (cards: Card[], { bannedCards }: CardRules) => {
     const bannedCardsSlugged = setSlugCards(bannedCards);
@@ -14,13 +14,12 @@ export const getCardDetails = (cards: Card[]) => {
     const options = cards.map(card => {
         return {
             name: card.name,
-            value: card.name, // TODO: Averiguar si a lo mejor necesito todo el obj
+            value: card, // TODO: Averiguar si a lo mejor necesito todo el obj
             hint: card.ability
         }
     })
 
-    return optionsBuilder({ message, choices: options })
-
+    return multiSelectOptionsBuilder({ message, options })
 }
 
 export const getCardsByType = (cards: Card[], type: CARD_TYPES) => cards.filter(card => card.type === type)

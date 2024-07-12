@@ -1,11 +1,12 @@
 import {confirm, select} from '@inquirer/prompts';
+import { select as multiselect } from 'inquirer-select-pro';
 import {deckOptions} from "./helpers/deck-options.ts";
 import {DECK_OPTIONS} from "./enums/deck-options.ts";
 import {getEditionsSelect} from "./helpers/editions.ts";
 import {cardRulesMessage, getCardRulesByEdition, noCardRulesMessage} from "./helpers/card-rules.ts";
 import type {CardRules} from "./models/card-rules.ts";
 import {readJSONFile} from "./helpers/read-json.ts";
-import {getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
+import {getCardDetails, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
 
@@ -18,6 +19,7 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
 
     // TODO: Llamar endpoint para obtener las cartas por edicion, mientras se obtendrá el json
     const cardsByEdition: CardResponse = await readJSONFile('../stubs/cards-by-helenica-edition.json')
+    // TODO: Validar si no vienen cartas por la edición.
     console.log('Cards by edition qty before:', cardsByEdition.cards.length);
     cardsByEdition.cards = removeBannedCards(cardsByEdition.cards, cardRules);
     console.log('Cards by edition qty after:', cardsByEdition.cards.length);
@@ -27,6 +29,9 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     // TODO: Separar por variable o pisar directamente?
     const goldCardsMultiplied = multiplyCards(goldCards, cardRules);
     console.log('Gold Cards qty after:', goldCardsMultiplied.length);
+
+    const goldCardsSelected = await multiselect(getCardDetails(goldCardsMultiplied))
+    console.log('Gold cards selected', goldCardsSelected)
 
 
 
