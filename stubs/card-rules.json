@@ -1,0 +1,16 @@
+{
+    "helenica": {
+        "bannedCards": [
+            "Rayos",
+            "Marco Antonio",
+            "Maldicion de hera"
+        ],
+        "oneCopyCards": [
+            "Cesar Augusto",
+            "Gaia"
+        ],
+        "twoCopyCards": [
+            "Helios"
+        ]
+    }
+}
