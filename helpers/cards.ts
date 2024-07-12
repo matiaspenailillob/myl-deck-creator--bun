@@ -27,21 +27,29 @@ export const getCardsByType = (cards: Card[], type: CARD_TYPES) => cards.filter(
 export const isUniqueCard = ({ ability }: Card) => ability?.toLowerCase().includes('carta única');
 
 // TODO: WIP
-export const multiplyCards = (cards: Card[], { oneCopyCards, twoCopyCards }: CardRules) => {
+export const multiplyCards = (cards: Card[], { oneCopyCards, twoCopyCards }: CardRules): Card[] => {
+    // Convertir las listas de cartas a sus slugs
     const oneCopyCardSlugged = setSlugCards(oneCopyCards);
     const twoCopyCardSlugged = setSlugCards(twoCopyCards);
 
-    return cards.reduce((acc, curr) => {
+    // Inicializar el arreglo resultante
+    const result: Card[] = [];
 
-        if(oneCopyCardSlugged.includes(curr.slug) || isUniqueCard(curr)) {
-            return acc.concat(curr)
+    // Procesar cada carta
+    cards.forEach(card => {
+        // Si la carta está en oneCopyCards o es única, añadir una copia
+        if (oneCopyCardSlugged.includes(card.slug) || isUniqueCard(card)) {
+            result.push(card);
         }
-
-        if(twoCopyCardSlugged.includes(curr.slug)) {
-            return acc.concat(curr, curr)
+        // Si la carta está en twoCopyCards, añadir dos copias
+        else if (twoCopyCardSlugged.includes(card.slug)) {
+            result.push(card, card);
         }
+        // En cualquier otro caso, añadir tres copias
+        else {
+            result.push(card, card, card);
+        }
+    });
 
-        return acc.concat(curr, curr, curr)
-
-    },[])
-}
+    return result;
+};

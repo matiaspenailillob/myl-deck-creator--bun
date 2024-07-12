@@ -36,10 +36,10 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     const totemCardsMultiplied = multiplyCards(totemCards, cardRules)
 
     const cardsSelections = {
-        gold: await multiselect(getCardDetails(goldCardsMultiplied)),
-        talisman: await multiselect(getCardDetails(talismanCardsMultiplied)),
-        weapon: await multiselect(getCardDetails(weaponCardsMultiplied)),
-        totem: await multiselect(getCardDetails(totemCardsMultiplied)),
+        golds: await multiselect(getCardDetails(goldCardsMultiplied)),
+        talismans: await multiselect(getCardDetails(talismanCardsMultiplied)),
+        weapons: await multiselect(getCardDetails(weaponCardsMultiplied)),
+        totems: await multiselect(getCardDetails(totemCardsMultiplied)),
     }
 
 
