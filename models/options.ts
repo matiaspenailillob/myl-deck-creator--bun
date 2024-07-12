@@ -1,7 +1,7 @@
 export interface Choice {
     name: string;
     value: string;
-    description: string;
+    description?: string;
     disabled?: boolean
 }
 
