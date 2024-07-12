@@ -10,6 +10,7 @@ import {getCardDetails, getCardsByType, multiplyCards, removeBannedCards} from "
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
 
+const MAX_CARDS_IN_DECK = 50;
 const deckSelection = await select(await deckOptions())
 
 if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
@@ -20,19 +21,28 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     // TODO: Llamar endpoint para obtener las cartas por edicion, mientras se obtendrá el json
     const cardsByEdition: CardResponse = await readJSONFile('../stubs/cards-by-helenica-edition.json')
     // TODO: Validar si no vienen cartas por la edición.
-    console.log('Cards by edition qty before:', cardsByEdition.cards.length);
     cardsByEdition.cards = removeBannedCards(cardsByEdition.cards, cardRules);
-    console.log('Cards by edition qty after:', cardsByEdition.cards.length);
 
     const goldCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.ORO);
-    console.log('Gold Cards qty before:', goldCards.length);
-    // TODO: Separar por variable o pisar directamente?
     const goldCardsMultiplied = multiplyCards(goldCards, cardRules);
-    console.log('Gold Cards qty after:', goldCardsMultiplied.length);
 
-    const goldCardsSelected = await multiselect(getCardDetails(goldCardsMultiplied))
-    console.log('Gold cards selected', goldCardsSelected)
+    const talismanCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.TALISMAN);
+    const talismanCardsMultiplied = multiplyCards(talismanCards, cardRules)
+
+    const weaponCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.ARMA);
+    const weaponCardsMultiplied = multiplyCards(weaponCards, cardRules)
+
+    const totemCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.TOTEM);
+    const totemCardsMultiplied = multiplyCards(totemCards, cardRules)
+
+    const cardsSelections = {
+        gold: await multiselect(getCardDetails(goldCardsMultiplied)),
+        talisman: await multiselect(getCardDetails(talismanCardsMultiplied)),
+        weapon: await multiselect(getCardDetails(weaponCardsMultiplied)),
+        totem: await multiselect(getCardDetails(totemCardsMultiplied)),
+    }
 
 
+    console.log('Cards Selection', cardsSelections);
 
 }

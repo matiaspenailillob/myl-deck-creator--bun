@@ -3,14 +3,26 @@
         "bannedCards": [
             "Rayos",
             "Marco Antonio",
-            "Maldicion de hera"
+            "Rómulo y Remo",
+            "Red de Aracne",
+            "Maldicion de hera",
+            "Ataque Fulminante",
+            "Eolo"
         ],
         "oneCopyCards": [
             "Cesar Augusto",
-            "Gaia"
+            "Gaia",
+            "Hogar de Demonios"
         ],
         "twoCopyCards": [
-            "Helios"
+            "Helios",
+            "Idmon el Adivino",
+            "Constantino",
+            "Leucrota",
+            "La Iliada",
+            "Antorcha Olímpica",
+            "Aceite de Oliva",
+            "Panteón"
         ]
     }
 }
