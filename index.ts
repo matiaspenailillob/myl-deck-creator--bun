@@ -6,7 +6,7 @@ import {getEditionsSelect} from "./helpers/editions.ts";
 import {cardRulesMessage, getCardRulesByEdition, noCardRulesMessage} from "./helpers/card-rules.ts";
 import type {CardRules} from "./models/card-rules.ts";
 import {readJSONFile} from "./helpers/read-json.ts";
-import {getCardDetails, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
+import {buildCardMultiSelectOptions, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
 
@@ -36,10 +36,10 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     const totemCardsMultiplied = multiplyCards(totemCards, cardRules)
 
     const cardsSelections = {
-        golds: await multiselect(getCardDetails(goldCardsMultiplied)),
-        talismans: await multiselect(getCardDetails(talismanCardsMultiplied)),
-        weapons: await multiselect(getCardDetails(weaponCardsMultiplied)),
-        totems: await multiselect(getCardDetails(totemCardsMultiplied)),
+        golds: await multiselect(buildCardMultiSelectOptions(goldCardsMultiplied)),
+        talismans: await multiselect(buildCardMultiSelectOptions(talismanCardsMultiplied)),
+        weapons: await multiselect(buildCardMultiSelectOptions(weaponCardsMultiplied)),
+        totems: await multiselect(buildCardMultiSelectOptions(totemCardsMultiplied)),
     }
 
 

@@ -9,7 +9,7 @@ export const removeBannedCards = (cards: Card[], { bannedCards }: CardRules) => 
     return cards.filter(({ slug }) => !bannedCardsSlugged.includes(slug))
 }
 
-export const getCardDetails = (cards: Card[]) => {
+export const buildCardMultiSelectOptions = (cards: Card[]) => {
     const message = 'Selecciona tus cartas';
     const options = cards.map(card => {
         return {
