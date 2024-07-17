@@ -10,7 +10,6 @@ import {buildCardMultiSelectOptions, getCardsByType, multiplyCards, removeBanned
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
 
-const MAX_CARDS_IN_DECK = 50;
 const deckSelection = await select(await deckOptions())
 
 if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
@@ -35,11 +34,15 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     const totemCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.TOTEM);
     const totemCardsMultiplied = multiplyCards(totemCards, cardRules)
 
+    const alliedCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.ALIADO);
+    const alliedCardsMultiplied = multiplyCards(alliedCards, cardRules)
+
     const cardsSelections = {
         golds: await multiselect(buildCardMultiSelectOptions(goldCardsMultiplied)),
         talismans: await multiselect(buildCardMultiSelectOptions(talismanCardsMultiplied)),
         weapons: await multiselect(buildCardMultiSelectOptions(weaponCardsMultiplied)),
         totems: await multiselect(buildCardMultiSelectOptions(totemCardsMultiplied)),
+        allieds: await multiselect(buildCardMultiSelectOptions(alliedCardsMultiplied)),
     }
 
 
