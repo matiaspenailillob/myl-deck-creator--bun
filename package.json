@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@inquirer/prompts": "^5.1.2"
+    "@inquirer/prompts": "^5.1.2",
+    "inquirer-select-pro": "^1.0.0-alpha.6"
   }
 }
