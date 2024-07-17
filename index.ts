@@ -1,14 +1,14 @@
 import {confirm, select} from '@inquirer/prompts';
-import { select as multiselect } from 'inquirer-select-pro';
 import {deckOptions} from "./helpers/deck-options.ts";
 import {DECK_OPTIONS} from "./enums/deck-options.ts";
 import {getEditionsSelect} from "./helpers/editions.ts";
 import {cardRulesMessage, getCardRulesByEdition, noCardRulesMessage} from "./helpers/card-rules.ts";
 import type {CardRules} from "./models/card-rules.ts";
 import {readJSONFile} from "./helpers/read-json.ts";
-import {buildCardMultiSelectOptions, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
+import {getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
+import {CardSelectionBuilder} from "./models/card-selection-builder.ts";
 
 const deckSelection = await select(await deckOptions())
 
@@ -37,15 +37,15 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     const alliedCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.ALIADO);
     const alliedCardsMultiplied = multiplyCards(alliedCards, cardRules)
 
-    const cardsSelections = {
-        golds: await multiselect(buildCardMultiSelectOptions(goldCardsMultiplied)),
-        talismans: await multiselect(buildCardMultiSelectOptions(talismanCardsMultiplied)),
-        weapons: await multiselect(buildCardMultiSelectOptions(weaponCardsMultiplied)),
-        totems: await multiselect(buildCardMultiSelectOptions(totemCardsMultiplied)),
-        allied: await multiselect(buildCardMultiSelectOptions(alliedCardsMultiplied)),
-    }
+    const cardsSelectionsBuilder = await new CardSelectionBuilder()
+        .setGoldCards(goldCardsMultiplied)
+        .setTalismanCards(talismanCardsMultiplied)
+        .setWeaponCards(weaponCardsMultiplied)
+        .setTotemCards(totemCardsMultiplied)
+        .setAlliedCards(alliedCardsMultiplied)
+        .build();
 
 
-    console.log('Cards Selection', cardsSelections);
+    console.log('Cards Selection', cardsSelectionsBuilder);
 
 }
