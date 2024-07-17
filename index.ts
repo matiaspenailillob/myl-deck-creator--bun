@@ -42,7 +42,7 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
         talismans: await multiselect(buildCardMultiSelectOptions(talismanCardsMultiplied)),
         weapons: await multiselect(buildCardMultiSelectOptions(weaponCardsMultiplied)),
         totems: await multiselect(buildCardMultiSelectOptions(totemCardsMultiplied)),
-        allieds: await multiselect(buildCardMultiSelectOptions(alliedCardsMultiplied)),
+        allied: await multiselect(buildCardMultiSelectOptions(alliedCardsMultiplied)),
     }
 
 
