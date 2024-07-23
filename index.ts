@@ -5,10 +5,11 @@ import {DECK_OPTIONS} from "./enums/deck-options.ts";
 import {getEditionsSelect} from "./helpers/editions.ts";
 import {cardRulesMessage, getCardRulesByEdition, noCardRulesMessage} from "./helpers/card-rules.ts";
 import type {CardRules} from "./models/card-rules.ts";
-import {readJSONFile} from "./helpers/read-json.ts";
 import {buildCardMultiSelectOptions, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
+import {HttpClient} from "./models/http-client.ts";
+import {config} from "./configs/api-configs.ts";
 
 const deckSelection = await select(await deckOptions())
 
@@ -17,10 +18,13 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     const cardRules: CardRules | undefined = await getCardRulesByEdition(selectedEdition);
     const shouldCardRulesConfirm = await confirm({ message: cardRules ? cardRulesMessage(cardRules, selectedEdition) : noCardRulesMessage()})
 
-    // TODO: Llamar endpoint para obtener las cartas por edicion, mientras se obtendrá el json
-    const cardsByEdition: CardResponse = await readJSONFile('../stubs/cards-by-helenica-edition.json')
-    // TODO: Validar si no vienen cartas por la edición.
-    cardsByEdition.cards = removeBannedCards(cardsByEdition.cards, cardRules);
+    const client = new HttpClient();
+    const cardsByEditionURI = `${config.cardsByEdition}/${selectedEdition}`
+    const cardsByEdition: CardResponse = await client.get(cardsByEditionURI);
+
+    if(cardRules){
+        cardsByEdition.cards = removeBannedCards(cardsByEdition.cards, cardRules);
+    }
 
     const goldCards: Card[] = getCardsByType(cardsByEdition.cards, CARD_TYPES.ORO);
     const goldCardsMultiplied = multiplyCards(goldCards, cardRules);
