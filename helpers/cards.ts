@@ -1,4 +1,4 @@
-import {setSlugCards} from "../utils/cards.ts";
+import {groupCardsSelected, setSlugCards} from "../utils/cards.ts";
 import type {CardRules} from "../models/card-rules.ts";
 import type {Card} from "../models/cards.ts";
 import {CARD_TYPES} from "../enums/card-types.ts";
@@ -63,3 +63,16 @@ export const multiplyCards = (cards: Card[], cardRules?: CardRules): Card[] => {
 
     return result;
 };
+
+// TODO: WIP
+export const getSelectedCardsDetail = (cardCollection = {}) => {
+    let output = '';
+    Object.entries(cardCollection).forEach(([key, value]) => {
+        output += `${key}: \n`
+        const groupedCards = groupCardsSelected(value);
+        Object.entries(groupedCards).forEach(([cardName, count]) => {
+            output+= `- ${cardName}: ${count}\n`
+        })
+    })
+    return output;
+}

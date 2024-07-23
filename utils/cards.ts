@@ -6,3 +6,10 @@ export const normalizeCardName = (cardName: string): string => {
         .replace(/\s+/g, '-');          // Reemplaza espacios por guiones (nota: igual existe replaceAll)
 }
 export const setSlugCards = (cards: string[]) => cards.map(card => normalizeCardName(card));
+
+export const groupCardsSelected = (cardsSelected: any) => {
+    return cardsSelected.reduce((acc, curr) => {
+        acc[curr.name] = !acc[curr.name] ? 1 : acc[curr.name] += 1;
+        return acc;
+    }, {})
+}

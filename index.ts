@@ -5,7 +5,13 @@ import {DECK_OPTIONS} from "./enums/deck-options.ts";
 import {getEditionsSelect} from "./helpers/editions.ts";
 import {cardRulesMessage, getCardRulesByEdition, noCardRulesMessage} from "./helpers/card-rules.ts";
 import type {CardRules} from "./models/card-rules.ts";
-import {buildCardMultiSelectOptions, getCardsByType, multiplyCards, removeBannedCards} from "./helpers/cards.ts";
+import {
+    buildCardMultiSelectOptions,
+    getCardsByType,
+    getSelectedCardsDetail,
+    multiplyCards,
+    removeBannedCards
+} from "./helpers/cards.ts";
 import type {Card, CardResponse} from "./models/cards.ts";
 import {CARD_TYPES} from "./enums/card-types.ts";
 import {HttpClient} from "./models/http-client.ts";
@@ -50,6 +56,6 @@ if(+deckSelection === DECK_OPTIONS.BUILD_MY_DECK) {
     }
 
 
-    console.log('Cards Selection', cardsSelections);
+    console.log('Cards Selection', getSelectedCardsDetail(cardsSelections));
 
 }
